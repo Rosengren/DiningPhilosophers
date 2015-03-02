@@ -14,7 +14,7 @@ public class Fork {
     }
 
     public synchronized void acquire() throws InterruptedException {
-        if (holder == null) wait();
+        if (holder != null) wait();
         holder = Thread.currentThread();
     }
 

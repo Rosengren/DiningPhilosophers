@@ -8,6 +8,12 @@ public class Philosopher implements Runnable {
     private int eatingTimeInMillis;
     private Random rand = new Random();
     private Fork firstFork, secondFork;
+    private volatile boolean running = true;
+
+    /** Metrics **/
+    private int timesEaten = 0;
+    private int timeSpentEating = 0;
+    private int timeSpentThinking = 0;
 
 
     public Philosopher(int id, int eatingTime, Fork left, Fork right) {
@@ -20,12 +26,22 @@ public class Philosopher implements Runnable {
             firstFork = right;
             secondFork = left;
         }
+//        System.out.println("Philosopher " + id + " has forks: " + left.getId() + " and " + right.getId());
     }
 
-    private void sleep() {
-        System.out.println("Philosopher " + id + " is sleeping");
+    public void printMetrics() {
+        System.out.println(" - Philosopher " + id + ":");
+        System.out.println("\tTime Spent Thinking: " + timeSpentThinking + " milliseconds");
+        System.out.println("\tTime Spent Eating: " + timeSpentEating + " milliseconds");
+        System.out.println("\tTimes Eaten: " + timesEaten + "\n");
+    }
+
+    private void think() {
+        System.out.println("Philosopher " + id + " is thinking");
         try {
-            Thread.sleep(rand.nextInt(MAX_SLEEP_TIME));
+            int thinkingTime = rand.nextInt(MAX_SLEEP_TIME);
+            timeSpentThinking += thinkingTime;
+            Thread.sleep(thinkingTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -50,19 +66,24 @@ public class Philosopher implements Runnable {
 
     private void eat() throws InterruptedException {
         System.out.println("Philosopher " + id + " is eating");
+        timeSpentEating += eatingTimeInMillis;
         Thread.sleep(eatingTimeInMillis);
+    }
+
+    public void terminate() {
+        running = false;
     }
 
     @Override
     public void run() {
 
         try {
-            while (true) {
-                System.out.println("Philosopher " + id + " is thinking");
+            while (running) {
                 pickUpForks();
                 eat();
                 releaseForks();
-                sleep();
+                timesEaten++;
+                think();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
