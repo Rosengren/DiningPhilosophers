@@ -3,14 +3,14 @@ import java.util.List;
 
 public class Main {
 
+    private static final int TOTAL_RUN_TIME_IN_MILLIS = 60000;
+
     public static void displayMetrics(List<Philosopher> philosophers) {
         System.out.println("--------- METRICS ---------\n");
         for (Philosopher p : philosophers)
             p.printMetrics();
         System.out.println("---------------------------");
     }
-
-    private static final int TOTAL_RUN_TIME_IN_MILLIS = 60000;
 
     public static void main(String[] args) throws InterruptedException {
         if (args.length < 2) {
