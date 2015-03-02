@@ -26,7 +26,6 @@ public class Philosopher implements Runnable {
             firstFork = right;
             secondFork = left;
         }
-//        System.out.println("Philosopher " + id + " has forks: " + left.getId() + " and " + right.getId());
     }
 
     public void printMetrics() {
@@ -60,8 +59,8 @@ public class Philosopher implements Runnable {
 
     private void releaseForks() {
         System.out.println("Philosopher " + id + " is putting down forks");
-        firstFork.releaseIfMine();
-        secondFork.releaseIfMine();
+        firstFork.release();
+        secondFork.release();
     }
 
     private void eat() throws InterruptedException {

@@ -19,11 +19,6 @@ public class Fork {
     }
 
     public synchronized void release() {
-        holder = null;
-        notify();
-    }
-
-    public synchronized void releaseIfMine() {
         if (holder == Thread.currentThread())
             holder = null;
         notify();

@@ -7,7 +7,7 @@ public class Main {
         System.out.println("--------- METRICS ---------\n");
         for (Philosopher p : philosophers)
             p.printMetrics();
-        System.out.println("--------- ------- ---------");
+        System.out.println("---------------------------");
     }
 
     private static final int TOTAL_RUN_TIME_IN_MILLIS = 60000;
@@ -16,6 +16,7 @@ public class Main {
         if (args.length < 2) {
             System.out.println("Missing arguments:\n\t - Number of philosophers" +
                     "\n\t - Number of number of milliseconds that each philosopher takes to eat.");
+            return;
         }
 
         int numberOfPhilosophers = Integer.parseInt(args[0]);
